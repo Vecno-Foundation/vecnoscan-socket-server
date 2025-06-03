@@ -16,8 +16,8 @@ sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 socket_app = socketio.ASGIApp(sio)
 
 app = FastAPI(
-    title="Vecno REST-API server",
-    description="This server is to communicate with vecno network via REST-API",
+    title="Vecnoscan REST-API server",
+    description="This server is to communicate with Vecno Blockchain via REST-API",
     version=os.getenv("VERSION", "tbd"),
     contact={
         "name": "Yoshiki"
@@ -65,19 +65,19 @@ async def ping_server():
             "is_synced": info["getInfoResponse"]["isSynced"]
         }
     except Exception as exc:
-        raise HTTPException(status_code=500, detail="Vecnod not connected.")
+        raise HTTPException(status_code=500, detail="Vecod not connected.")
 
 
 vecnod_hosts = []
 
 for i in range(100):
     try:
-        vecnod_hosts.append(os.environ[f"VECNOD_HOST_{i + 1}"].strip())
+        vecnod_hosts.append(os.environ[f"VECNOD_HOSTS_{i + 1}"].strip())
     except KeyError:
         break
 
 if not vecnod_hosts:
-    raise Exception('Please set at least VECNOD_HOST_1 environment variable.')
+    raise Exception('Please set at least VECNOD_HOSTS_1 environment variable.')
 
 vecnod_client = VecnodMultiClient(vecnod_hosts)
 

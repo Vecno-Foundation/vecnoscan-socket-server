@@ -5,6 +5,9 @@ from vecnod.VecnodClient import VecnodClient
 # pipenv run python -m grpc_tools.protoc -I./protos --python_out=. --grpc_python_out=. ./protos/rpc.proto ./protos/messages.proto ./protos/p2p.proto
 from vecnod.VecnodThread import VecnodCommunicationError
 
+class NodeNotIndexedError(Exception):
+    """Custom exception indicating the node's UTXO is not indexed."""
+    pass
 
 class VecnodMultiClient(object):
     def __init__(self, hosts: list[str]):
@@ -12,7 +15,7 @@ class VecnodMultiClient(object):
 
     def __get_vecnod(self):
         for k in self.vecnods:
-            if k.is_utxo_indexed and k.is_synced:
+            if k.is_utxo_indexed:
                 return k
 
     async def initialize_all(self):
@@ -23,10 +26,22 @@ class VecnodMultiClient(object):
 
     async def request(self, command, params=None, timeout=5):
         try:
-            return await self.__get_vecnod().request(command, params, timeout=timeout)
+            vecnod = self.__get_vecnod()
+            if vecnod is not None:
+                return await vecnod.request(command, params, timeout=timeout)
+            else:
+                raise NodeNotIndexedError("Did not find a node that hash UTXO indexed")
         except VecnodCommunicationError:
             await self.initialize_all()
-            return await self.__get_vecnod().request(command, params, timeout=timeout)
+            vecnod = self.__get_vecnod()
+            if vecnod is not None:
+                return await vecnod.request(command, params, timeout=timeout)
+            else:
+                raise NodeNotIndexedError("Did not find a node that hash UTXO indexed")
 
     async def notify(self, command, params, callback):
-        return await self.__get_vecnod().notify(command, params, callback)
+        vecnod = self.__get_vecnod()
+        if vecnod is not None:
+            return await vecnod.notify(command, params, callback)
+        else:
+            raise NodeNotIndexedError("Did not find a node that hash UTXO indexed")

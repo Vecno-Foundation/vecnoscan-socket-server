@@ -19,20 +19,20 @@ class VecnodCommunicationError(Exception): pass
 # pipenv run python -m grpc_tools.protoc -I./protos --python_out=. --grpc_python_out=. ./protos/rpc.proto ./protos/messages.proto ./protos/p2p.proto
 
 class VecnodThread(object):
-    def __init__(self, vecnod_host, vecnod_port, async_thread=True):
+    def __init__(self, vecno_host, vecno_port, async_thread=True):
 
-        self.vecnod_host = vecnod_host
-        self.vecnod_port = vecnod_port
+        self.vecno_host = vecno_host
+        self.vecno_port = vecno_port
 
         if async_thread:
-            self.channel = grpc.aio.insecure_channel(f'{vecnod_host}:{vecnod_port}',
+            self.channel = grpc.aio.insecure_channel(f'{vecno_host}:{vecno_port}',
                                                      compression=grpc.Compression.Gzip,
                                                      options=[
                                                          ('grpc.max_send_message_length', MAX_MESSAGE_LENGTH),
                                                          ('grpc.max_receive_message_length', MAX_MESSAGE_LENGTH),
                                                      ])
         else:
-            self.channel = grpc.insecure_channel(f'{vecnod_host}:{vecnod_port}',
+            self.channel = grpc.insecure_channel(f'{vecno_host}:{vecno_port}',
                                                  compression=grpc.Compression.Gzip,
                                                  options=[
                                                      ('grpc.max_send_message_length', MAX_MESSAGE_LENGTH),

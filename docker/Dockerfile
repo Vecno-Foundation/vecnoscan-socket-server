@@ -4,7 +4,7 @@ ARG REPO_DIR
 
 EXPOSE 8000
 
-ENV VECNOD_HOST_1=n.seeder1.vecnod.net:16110
+ENV VECNOD_HOSTS_1=seed.vecnoscan.org:7110
 ENV SQL_URI=postgresql+asyncpg://postgres:password@postgresql:5432/postgres
 ARG version
 ENV VERSION=$version

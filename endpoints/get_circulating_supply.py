@@ -29,7 +29,7 @@ async def get_circulating_coins(in_billion: bool = False):
 
 async def get_circulating_coins():
     """
-    Get total amount of $VE token as numerical value
+    Get total amount of $VE coin as numerical value
     """
     resp = await vecnod_client.request("getCoinSupplyRequest")
     return str(float(resp["getCoinSupplyResponse"]["circulatingSompi"]) / 100000000)

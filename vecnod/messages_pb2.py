@@ -35,7 +35,7 @@ _RPC = DESCRIPTOR.services_by_name['RPC']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  DESCRIPTOR._serialized_options = b'Z$github.com/kaspanet/vecnod/protowire'
+  DESCRIPTOR._serialized_options = b'Z$github.com/kaspanet/kaspad/protowire'
   _VECNODMESSAGE._serialized_start=52
   _VECNODMESSAGE._serialized_end=10629
   _P2P._serialized_start=10631
