@@ -29,7 +29,7 @@ app = FastAPI(
 
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
-app.mount("/ws", socket_app)
+app.mount("", socket_app)
 
 origins = ["*"]
 
