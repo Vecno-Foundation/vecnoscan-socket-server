@@ -13,9 +13,10 @@ requests = "*"
 websockets = "*"
 fastapi-utils = "*"
 python-socketio = "*"
-psycopg2 = {extras = ["async"], version = "*"}
+psycopg2-binary = "*"
 asyncpg = "*"
 cachetools = "*"
+typing-inspect = "*"
 
 [requires]
 python_version = "3.10"
